@@ -1,55 +1,38 @@
 fun main() {
-    val words = mapOf(
-        "one" to 1,
-        "two" to 2,
-        "three" to 3,
-        "four" to 4,
-        "five" to 5,
-        "six" to 6,
-        "seven" to 7,
-        "eight" to 8,
-        "nine" to 9,
-        "1" to 1,
-        "2" to 2,
-        "3" to 3,
-        "4" to 4,
-        "5" to 5,
-        "6" to 6,
-        "7" to 7,
-        "8" to 8,
-        "9" to 9,
-    )
+    fun part2(games: List<Map<String, Int>>): Int {
+        return games.fold(0) { acc, game ->
+            acc + (game["red"]!! * game["green"]!! * game["blue"]!!)
+        }
+    }
 
-    fun part2(calibrations: List<String>): Int {
-        return calibrations
-            .fold(0) { acc, str ->
-                val firstDigit = words[str.findAnyOf(words.keys)?.second]
-                val lastDigit = words[str.findLastAnyOf(words.keys)?.second]
+    fun part1(games: List<Map<String, Int>>): Int {
+        return games.fold(0) { acc, game ->
+            if (game["red"]!! <= 12 && game["green"]!! <= 13 && game["blue"]!! <= 14)
+                acc + game["Game"]!!
+            else
+                acc
+        }
+    }
 
-                acc + (firstDigit!! * 10) + lastDigit!!
+    fun formatInput(input: List<String>): List<Map<String, Int>> {
+        return input
+            .map { line -> line.split(":", ";").flatMap { it.split(", ") }.map { it.split(" ").filter{ !it.isEmpty() } } }
+            .map { game ->
+                game.map { if (it.first() != "Game") it.reversed() else it }
+                    .groupBy { it.first() }
+                    .map { it.key to it.value.flatten().filter{ number -> number != it.key }.map { it.toInt() }.max() }.toMap()
             }
     }
 
-    fun part1(calibrations: List<String>): Int {
-        return calibrations
-            .fold(0) {
-                    acc, str ->
-                val firstDigit = str.first { char -> char.isDigit() }.digitToInt()
-                val lastDigit = str.last { char -> char.isDigit() }.digitToInt()
+    val testGames = formatInput(readInput("Day02-Example").toMutableList())
+    val games = formatInput(readInput("Day02").toMutableList())
 
-                acc + (firstDigit * 10) + lastDigit
-            }
-    }
+//     TEST FOR EXAMPLE INPUT
+    check(part1(testGames) == 8)
+    check(part2(testGames) == 2286)
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01-Example")
-    check(part1(testInput) == 142)
-
-    val calibrations = readInput("Day01")
-    part1(calibrations).println()
-
-    println("Day 01 - Part one: ${part1(calibrations)}")
-    println("Day 01 - Part two: ${part2(calibrations)}")
+    println("Day 02 - Part one: ${part1(games)}")
+    println("Day 02 - Part two: ${part2(games)}")
 }
 
 
