@@ -1,3 +1,5 @@
+import kotlin.system.measureTimeMillis
+
 fun main() {
     fun part1(input: List<String>): Int {
         return input.size
@@ -12,6 +14,8 @@ fun main() {
     check(part1(testInput) == 1)
 
     val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+    println("Day 00 - Part one: ${part1(input)}")
+    println("Day 00 - Part two: ${part2(input)}")
+
+//    val timeInMillis = measureTimeMillis {}
 }

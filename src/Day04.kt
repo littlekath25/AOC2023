@@ -53,6 +53,6 @@ fun main() {
     val input = readInput("Day04")
     val cards = createCards(input)
 
-    part1(cards).println()
-    part2(cards).println()
+    println("Day 04 - Part one: ${part1(cards)}")
+    println("Day 04 - Part two: ${part2(cards)}")
 }
