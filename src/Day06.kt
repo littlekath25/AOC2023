@@ -9,21 +9,19 @@ fun main() {
             }
         }
 
-        return waysToWin
+        return if (waysToWin == 0.toLong()) 1 else waysToWin
     }
 
     fun part1(input: List<String>): Long {
         val parsed = input
             .map { it.split(":", " ").filter { it.isNotEmpty() }.drop(1).map { it.toLong() } }
-
         val games = parsed.first().zip(parsed.last())
+
         var totalWaysToWin = 1.toLong()
 
-        for (game in games) {
-            val totalWins = calculateWins(game)
-            if (totalWins > 0)
-                totalWaysToWin *= totalWins
-        }
+        for (game in games)
+            totalWaysToWin *= calculateWins(game)
+
         return totalWaysToWin
     }
 
